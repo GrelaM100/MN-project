@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hansen_arith.cpp" />
     <ClCompile Include="interval.cpp" />
     <ClCompile Include="MN.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hansen_arith.h" />
     <ClInclude Include="interval.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
