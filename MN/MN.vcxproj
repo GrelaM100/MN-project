@@ -142,12 +142,16 @@
     <ClCompile Include="hansen_arith.cpp" />
     <ClCompile Include="hansen_intervals_parser.cpp" />
     <ClCompile Include="interval.cpp" />
+    <ClCompile Include="interval_matrix.cpp" />
     <ClCompile Include="MN.cpp" />
+    <ClCompile Include="system_of_linear_equations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hansen_arith.h" />
     <ClInclude Include="hansen_intervals_parser.h" />
     <ClInclude Include="interval.h" />
+    <ClInclude Include="interval_matrix.h" />
+    <ClInclude Include="system_of_linear_equations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
