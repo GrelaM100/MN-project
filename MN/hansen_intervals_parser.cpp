@@ -34,6 +34,28 @@ std::vector<hansen_interval> hansen_parser::parse(std::vector<interval> interval
 	return parsed_intervals;
 }
 
+std::vector<std::vector<hansen_interval>> hansen_parser::parse_vector(std::vector<std::vector<interval>> intervals) {
+	std::vector<std::vector<hansen_interval>> parsed_intervals;
+	for (int i = 0; i < intervals.size(); i++) {
+		parsed_intervals.push_back(hansen_parser::parse(intervals[i]));
+	}
+
+	return parsed_intervals;
+}
+
+hansen_interval_matrix hansen_parser::parse_matrix(interval_matrix matrix)
+{
+	hansen_interval_matrix hansen_matrix = hansen_interval_matrix(hansen_parser::parse_vector(matrix.get_matrix()));
+	return hansen_matrix;
+}
+
+system_of_linear_equations_hansen_form hansen_parser::parse_sole(system_of_linear_equations sole) {
+	hansen_interval_matrix AH = hansen_parser::parse_matrix(sole.A());
+	hansen_interval_matrix bH = hansen_parser::parse_matrix(sole.b());
+	system_of_linear_equations_hansen_form sole_h = system_of_linear_equations_hansen_form(AH, bH);
+	return sole_h;
+}
+
 void hansen_parser::print_intervals_information(interval interval, hansen_interval h_interval, std::string variable)
 {
 	std::cout << variable << " = " << interval << std::endl;

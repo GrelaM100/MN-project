@@ -4,6 +4,7 @@
 #include "hansen_intervals_parser.h"
 #include "interval_matrix.h"
 #include "system_of_linear_equations.h"
+#include "hansen_interval_matrix.h"
 
 int main()
 {
@@ -32,7 +33,9 @@ int main()
     interval_matrix A = interval_matrix(matA);
     interval_matrix b = interval_matrix(matb);
     system_of_linear_equations sole = system_of_linear_equations(A, b);
-    std::cout << sole;
+    std::cout << sole << std::endl << std::endl;
+    std::cout << hansen_parser::parse_sole(sole) << std::endl;
+    
     return 0;
 }
 

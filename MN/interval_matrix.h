@@ -35,6 +35,7 @@ public:
 
 	unsigned get_rows() const;
 	unsigned get_cols() const;
+	std::vector<std::vector<interval>> get_matrix() const;
 };
 
 inline std::ostream& operator <<(std::ostream& os, const interval_matrix& m) {
