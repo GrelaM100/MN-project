@@ -8,6 +8,7 @@ public:
 	system_of_linear_equations(const interval_matrix& A, interval_matrix& b);
 	interval_matrix A() const { return _A; }
 	interval_matrix b() const { return _b; }
+	interval_matrix krawczyk_method();
 };
 
 inline std::ostream& operator <<(std::ostream& os, const system_of_linear_equations& s) {

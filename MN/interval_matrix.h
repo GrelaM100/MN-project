@@ -29,9 +29,20 @@ public:
 
 	std::vector<interval> operator*(const std::vector<interval>& vect);
 	std::vector<interval> diag_vec();
+	std::vector<std::vector<double>> subMatrix(std::vector<std::vector<double>> mat);
+	double determinant(std::vector<std::vector<double>> mat);
+	std::vector<std::vector<double>> matrix_values(int inf_or_sup = 0);
+	std::vector<std::vector<double>> adj(std::vector<std::vector<double>> m);
+	std::vector<std::vector<double>> transpose_double(const std::vector<std::vector<double>> m_to_transpose);
+	std::vector<std::vector<double>> inv(std::vector<std::vector<double>> m);
+	interval_matrix invert_matrix();
 
 	interval& operator()(const unsigned& row, const unsigned& col);
 	const interval& operator()(const unsigned& row, const unsigned& col) const;
+	double matrix_norm() const;
+	double width() const;
+	interval_matrix midpoint() const;
+	interval_matrix intersections(const interval_matrix& matrix);
 
 	unsigned get_rows() const;
 	unsigned get_cols() const;

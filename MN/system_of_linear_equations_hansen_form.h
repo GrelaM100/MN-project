@@ -9,6 +9,7 @@ public:
 	system_of_linear_equations_hansen_form(const hansen_interval_matrix& A, hansen_interval_matrix& b);
 	hansen_interval_matrix A() const { return _A; }
 	hansen_interval_matrix b() const { return _b; }
+	hansen_interval_matrix krawczyk_method();
 };
 
 inline std::ostream& operator <<(std::ostream& os, const system_of_linear_equations_hansen_form& s) {
