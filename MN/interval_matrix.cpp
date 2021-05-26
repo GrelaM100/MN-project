@@ -271,8 +271,7 @@ double interval_matrix::determinant(std::vector<std::vector<double>> mat)
 	std::vector<std::vector<double>> temp;
 	int sign = 1;
 	for (int i = 0; i < mat.size(); i++) {
-		subMatrix(mat);
-		determinant += sign * mat[0][i] * interval_matrix::determinant(temp);
+		determinant += sign * subMatrix(mat)[0][i] * interval_matrix::determinant(temp);
 		sign = -sign;
 	}
 	return determinant;
