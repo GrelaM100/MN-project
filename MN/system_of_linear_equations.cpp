@@ -33,7 +33,6 @@ interval_matrix system_of_linear_equations::krawczyk_method()
 	for (int i = 0; i < 100; i++) {
 		X_k = Yb + E * X;
 		X_k = X_k.intersections(X);
-		//std::cout << "X" << i + 1 << ": " << X_k << std::endl;
 		X = interval_matrix(X_k);
 	}
 

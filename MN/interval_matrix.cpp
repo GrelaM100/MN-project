@@ -354,12 +354,6 @@ interval_matrix interval_matrix::invert_matrix()
 	std::vector<std::vector<double>> A_inf, A_sup, A_inf_inv, A_sup_inv;
 	A_inf = interval_matrix::matrix_values(0);
 	A_sup = interval_matrix::matrix_values(1);
-	for (int i = 0; i < A_inf.size(); i++) {
-		for (int j = 0; j < A_inf.size(); j++) {
-			std::cout << "[" << A_inf[i][j] << ", " << A_sup[i][j] << "] ";
-		}
-		std::cout << std::endl;
-	}
 	A_inf_inv = interval_matrix::inv(A_inf);
 	A_sup_inv = interval_matrix::inv(A_sup);
 

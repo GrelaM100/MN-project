@@ -40,6 +40,9 @@ int main()
     std::cout << b * A;
     std::cout << A.invert_matrix();
     std::cout << sole.krawczyk_method() << std::endl << std::endl;
+    system_of_linear_equations_hansen_form soleH = hansen_parser::parse_sole(sole);
+    std::cout << soleH << std::endl << std::endl;
+    std::cout << soleH.krawczyk_method() << std::endl << std::endl;
     return 0;
 }
 
