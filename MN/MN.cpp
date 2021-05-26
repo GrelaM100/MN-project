@@ -48,7 +48,6 @@ vector<interval> solve(system_of_linear_equations sole) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             a = A(j, i) / A(i, i);
-            a = interval(-0.55, -0.45);
             for (int k = 0; k < n; k++) {
                 A(j, k) = A(j, k) - a * A(i, k);
             }
