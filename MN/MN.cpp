@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream> 
 #include <string>
 #include <time.h>
@@ -7,7 +7,6 @@
 #include "hansen_intervals_parser.h"
 #include "interval_matrix.h"
 #include "system_of_linear_equations.h"
-#include "system_of_linear_equations_hansen_form.h"
 #include "hansen_interval_matrix.h"
 
 using namespace std;
@@ -134,10 +133,7 @@ vector<interval> split_row(string s) {
     return(new_row);
 }
 
-system_of_linear_equations create_example() {
-    int input;
-    cout << "Rozwiazywanie ukladu rownan metoda Gassa.\nWybierz co chcesz zrobic\n\t1. Wylosuj uklad rownan\n\t2. Wczytaj uklad rownan\n";
-    cin >> input;
+system_of_linear_equations create_example(int input) {
     vector<interval> rows;
     vector<vector<interval>> matA;
     vector<vector<interval>> matB;
@@ -145,7 +141,6 @@ system_of_linear_equations create_example() {
     int n = rand() % 4 + 2;
     int a1, a2;
     string row_input;
-
 
     switch (input)
     {
@@ -181,6 +176,10 @@ system_of_linear_equations create_example() {
         for (int i = 0; i < n; i++) {
             cin >> row_input;
             rows = split_row(row_input);
+            if (rows.size() != n) {
+                cout << "Niewlasciwa liczba argumentow. Powinno zostac podane " << n * 2 << " liczb\n";
+                break;
+            }
             matA.push_back(rows);
         }
         cout << "Podaj kolejne wiersze macierzy b\n";
@@ -204,58 +203,66 @@ system_of_linear_equations create_example() {
     return (sole);
 }
 
+system_of_linear_equations_hansen_form create_hansen_example(system_of_linear_equations sole) {
+
+    int n = sole.A().get_rows();
+    vector<vector<hansen_interval>> matA;
+    vector<vector<hansen_interval>> matB;
+    interval_matrix A = sole.A();
+    interval_matrix b = sole.b();
+    vector <interval> intervals;
+    vector<hansen_interval> hansen_intervals;
+    vector<hansen_interval> rows;
+    //hansen_interval_matrix hansen_matrix;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            intervals.push_back(A(i, j));
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        intervals.push_back(b(i, 0));
+    }
+    hansen_intervals = hansen_parser::parse(intervals);
+    //cout << hansen_intervals[0];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            rows.push_back(hansen_intervals[i*n + j]);
+        }
+        matA.push_back(rows);
+        rows.clear();
+    }
+    for (int i = 0; i < n; i++) {
+        rows.push_back(hansen_intervals[n * n + i]);
+        matB.push_back(rows);
+        rows.clear();
+    }
+
+    hansen_interval_matrix A_hansen = hansen_interval_matrix(matA);
+    hansen_interval_matrix B_hansen = hansen_interval_matrix(matB);
+    cout << "Czy chcesz wyswietlic macierz przedzialow w postaci Hansena [t/n]?\n";
+    string input;
+    cin >> input;
+    if (input == "t") {
+        cout << "\n\nMacierz A:\n" << A_hansen;
+        cout << "\n\n Macierz B:\n" << B_hansen;
+    }
+    system_of_linear_equations_hansen_form sole_hansen = system_of_linear_equations_hansen_form(A_hansen, B_hansen);
+    return (sole_hansen);
+}
+
 int main()
 {
-    //kod testowy
-    //interval x, y;
-    //std::vector <interval> intervals;
-    //std::vector <hansen_interval> hansen_intervals;
+    srand(time(NULL));
 
-    //x = interval(1, 2);
-    //y = interval(3, 4);
+    int input;
+    cout << "Rozwiazywanie ukladu rownan metoda Gassa.\nWybierz co chcesz zrobic\n\t1. Wylosuj uklad rownan\n\t2. Wczytaj uklad rownan\n";
+    cin >> input;
 
-    //intervals.push_back(x);
-    //intervals.push_back(y);
-
-    //hansen_intervals = hansen_parser::parse(intervals);
-    //hansen_parser::print_intervals_information(intervals[0], hansen_intervals[0], "x");
-    //hansen_parser::print_intervals_information(intervals[1], hansen_intervals[1], "y");
-    //hansen_parser::print_intervals_information(intervals[0] + intervals[1], hansen_intervals[0] + hansen_intervals[1], "x + y");
-    //hansen_parser::print_intervals_information(intervals[0] - intervals[1], hansen_intervals[0] - hansen_intervals[1], "x - y");
-    //hansen_parser::print_intervals_information(intervals[0] * intervals[1], hansen_intervals[0] * hansen_intervals[1], "x * y");
-    //hansen_parser::print_intervals_information(intervals[0] / intervals[1], hansen_intervals[0] / hansen_intervals[1], "x / y");
-
-    ////testowanie macierzy i liniowego uk�adu r�wna�
-    //std::vector<std::vector<interval>> matA = { {interval(2, 4), interval(-1, 1)}, {interval(-1, 1), interval(2, 4)} };
-    //std::vector<std::vector<interval>> matb = { {interval(-3, 3)}, {interval(0)} };
-    //interval_matrix A = interval_matrix(matA);
-    //interval_matrix b = interval_matrix(matb);
-    //system_of_linear_equations sole = system_of_linear_equations(A, b);
-    //std::cout << sole << std::endl << std::endl;
-    //std::cout << hansen_parser::parse_sole(sole) << std::endl;
-
-    ////testowanie macierzy i liniowego uk�adu r�wna�
-    ///*std::vector<std::vector<interval>> matA = { {interval(3), interval(1)}, {interval(3), interval(2)} };
-    //std::vector<std::vector<interval>> matb = { {interval(1,1)}, {interval(0,0)} };*/
-    //std::vector<std::vector<interval>> matA = { {interval(0, 1), interval(1, 2)}, {interval(-2), interval(-1, 2)} };
-    //std::vector<std::vector<interval>> matb = { {interval(0,2)}, {interval(0,0)} };
-    //interval_matrix A = interval_matrix(matA);
-    //interval_matrix b = interval_matrix(matb);
-    //system_of_linear_equations sole = system_of_linear_equations(A, b);
-    //std::cout << sole << std::endl << std::endl;
-    //std::cout << b * A;
-    //std::cout << A.invert_matrix();
-    //std::cout << sole.krawczyk_method() << std::endl << std::endl;
-    //system_of_linear_equations_hansen_form soleH = hansen_parser::parse_sole(sole);
-    //std::cout << soleH << std::endl << std::endl;
-    //std::cout << soleH.krawczyk_method() << std::endl << std::endl;
-    //std::cout << hansen_parser::parse_sole(sole) << std::endl;
-
-    system_of_linear_equations sole = create_example();
+    system_of_linear_equations sole = create_example(input);
+    system_of_linear_equations_hansen_form sole_hansen = create_hansen_example(sole);
     vector<interval> I = solve(sole);
-    std::cout << "Rozwiazanie metoda Krawczyka: " << std::endl;
-    std::cout << sole.krawczyk_method();
+    vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
 
     return 0;
 }
-
