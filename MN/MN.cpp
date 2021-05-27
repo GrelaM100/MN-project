@@ -51,7 +51,6 @@ vector<interval> solve(system_of_linear_equations sole) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             a = A(j, i) / A(i, i);
-            a = interval(-0.55, -0.45);
             for (int k = 0; k < n; k++) {
                 A(j, k) = A(j, k) - a * A(i, k);
             }
@@ -138,7 +137,8 @@ system_of_linear_equations create_example(int input) {
     vector<vector<interval>> matA;
     vector<vector<interval>> matB;
     interval element;
-    int n = rand() % 4 + 2;
+    //int n = rand() % 4 + 2;
+    int n = 2;
     int a1, a2;
     string row_input;
 
@@ -264,6 +264,7 @@ int main()
     vector<interval> I = solve(sole);
     vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
     
+    system("pause");
     std::cout << "Rozwiazanie metoda Krawczyka: " << std::endl;
     std::cout << sole.krawczyk_method();
 
