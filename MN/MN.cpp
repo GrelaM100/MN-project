@@ -66,7 +66,7 @@ vector<interval> solve(system_of_linear_equations sole) {
         }
         I.at(i) = a / A(i, i);
     }
-    cout << "Rozwiazanie ukladu rownan metoda Gaussa:\n";
+    cout << "\n\nRozwiazanie ukladu rownan metoda Gaussa:\n";
     print(I);
     return(I);
 }
@@ -104,7 +104,7 @@ vector<hansen_interval> solve_using_hansen(system_of_linear_equations_hansen_for
         }
         I.at(i) = a / A(i, i);
     }
-    cout << "Rozwiazanie ukladu rownan metoda Gaussa z wykorzystaniem arytmetyki Hansena:\n";
+    cout << "\nRozwiazanie ukladu rownan metoda Gaussa z wykorzystaniem arytmetyki Hansena:\n";
     print(I);
     return(I);
 }
@@ -244,8 +244,8 @@ system_of_linear_equations_hansen_form create_hansen_example(system_of_linear_eq
     string input;
     cin >> input;
     if (input == "t") {
-        cout << "\n\nMacierz A:\n" << A_hansen;
-        cout << "\n\n Macierz B:\n" << B_hansen;
+        cout << "\nMacierz A:\n" << A_hansen;
+        cout << "\nMacierz B:\n" << B_hansen;
     }
     system_of_linear_equations_hansen_form sole_hansen = system_of_linear_equations_hansen_form(A_hansen, B_hansen);
     return (sole_hansen);
@@ -264,8 +264,8 @@ int main()
     vector<interval> I = solve(sole);
     vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
     
-    system("pause");
-    std::cout << "Rozwiazanie metoda Krawczyka: " << std::endl;
+    //system("pause");
+    std::cout << "\nRozwiazanie metoda Krawczyka: " << std::endl;
     std::cout << sole.krawczyk_method();
 
     return 0;
