@@ -137,8 +137,8 @@ system_of_linear_equations create_example(int input) {
     vector<vector<interval>> matA;
     vector<vector<interval>> matB;
     interval element;
-    //int n = rand() % 4 + 2;
-    int n = 2;
+    int n = rand() % 4 + 3;
+    //int n = 2;
     int a1, a2;
     string row_input;
 
@@ -251,12 +251,126 @@ system_of_linear_equations_hansen_form create_hansen_example(system_of_linear_eq
     return (sole_hansen);
 }
 
+void example1() {
+    interval a1, a2, a3;
+    vector <interval> intervals;
+    vector<hansen_interval> hansen_intervals;
+    vector<vector<interval>> matA;
+    vector<vector<interval>> matB;
+    vector<vector<hansen_interval>> hansen_matA;
+    vector<vector<hansen_interval>> hansen_matB;
+
+
+    a1 = interval(1, 2);
+    a2 = interval(2, 7);
+    a3 = interval(2, 3);
+    intervals.push_back(a1);
+    intervals.push_back(a2);
+    intervals.push_back(a3);
+    hansen_intervals = hansen_parser::parse(intervals);
+    matA = { { intervals[0], intervals[1] }, { intervals[0]+intervals[1], intervals[0] + intervals[2] } };
+    matB = { { intervals[0] }, { intervals[1]} };
+    hansen_matA = { { hansen_intervals[0], hansen_intervals[1] }, { hansen_intervals[0] + hansen_intervals[1], hansen_intervals[0] + hansen_intervals[2] } };
+    hansen_matB = { { hansen_intervals[0] }, { hansen_intervals[1]} };
+
+    interval_matrix A = interval_matrix(matA);
+    interval_matrix B = interval_matrix(matB);
+    hansen_interval_matrix hansen_A = hansen_interval_matrix(hansen_matA);
+    hansen_interval_matrix hansen_B = hansen_interval_matrix(hansen_matB);
+    //cout << A_hansen;
+    system_of_linear_equations sole = system_of_linear_equations(A, B);
+    system_of_linear_equations_hansen_form sole_hansen = system_of_linear_equations_hansen_form(hansen_A, hansen_B);
+
+
+    cout << "Przyklad 1: (wspolczynniki w dokumentacji)";
+
+    vector<interval> I = solve(sole);
+    vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
+
+}
+
+void example2() {
+    interval a1, a2, a3;
+    vector <interval> intervals;
+    vector<hansen_interval> hansen_intervals;
+    vector<vector<interval>> matA;
+    vector<vector<interval>> matB;
+    vector<vector<hansen_interval>> hansen_matA;
+    vector<vector<hansen_interval>> hansen_matB;
+
+
+    a1 = interval(0.065,0.07);
+    a2 = interval(0.0073, 0.057);
+    a3 = interval(2, 3);
+    intervals.push_back(a1);
+    intervals.push_back(a2);
+    intervals.push_back(a3);
+    hansen_intervals = hansen_parser::parse(intervals);
+    matA = { { intervals[0] + intervals[0], intervals[1] + intervals[1] }, { intervals[0] + intervals[1], intervals[0] + intervals[2] } };
+    matB = { { intervals[0] }, { intervals[2]} };
+    hansen_matA = { { hansen_intervals[0] + hansen_intervals[0], hansen_intervals[1] + hansen_intervals[1]}, { hansen_intervals[0] + hansen_intervals[1], hansen_intervals[0] + hansen_intervals[2] } };
+    hansen_matB = { { hansen_intervals[0] }, { hansen_intervals[2]} };
+
+    interval_matrix A = interval_matrix(matA);
+    interval_matrix B = interval_matrix(matB);
+    hansen_interval_matrix hansen_A = hansen_interval_matrix(hansen_matA);
+    hansen_interval_matrix hansen_B = hansen_interval_matrix(hansen_matB);
+    //cout << A_hansen;
+    system_of_linear_equations sole = system_of_linear_equations(A, B);
+    system_of_linear_equations_hansen_form sole_hansen = system_of_linear_equations_hansen_form(hansen_A, hansen_B);
+
+    cout << "\nPrzyklad 2:";
+    vector<interval> I = solve(sole);
+    vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
+}
+
+void example3() {
+    interval a1, a2, a3;
+    vector <interval> intervals;
+    vector<hansen_interval> hansen_intervals;
+    vector<vector<interval>> matA;
+    vector<vector<interval>> matB;
+    vector<vector<hansen_interval>> hansen_matA;
+    vector<vector<hansen_interval>> hansen_matB;
+
+
+    a1 = interval(4, 9);
+    a2 = interval(1, 7);
+    a3 = interval(2, 3);
+    intervals.push_back(a1);
+    intervals.push_back(a2);
+    intervals.push_back(a3);
+    hansen_intervals = hansen_parser::parse(intervals);
+    matA = { { intervals[0], intervals[1], intervals[2] }, { intervals[1], intervals[0], intervals[1] }, { intervals[2], intervals[1], intervals[0] } };
+    matB = { { intervals[0] }, { intervals[1]}, { intervals[2]} };
+    hansen_matA = { { hansen_intervals[0], hansen_intervals[1], hansen_intervals[2] }, { hansen_intervals[1], hansen_intervals[0], hansen_intervals[1] }, { hansen_intervals[2], hansen_intervals[1], hansen_intervals[0] } };
+    hansen_matB = { { hansen_intervals[0] }, { hansen_intervals[1]}, { hansen_intervals[2]} };
+
+    interval_matrix A = interval_matrix(matA);
+    interval_matrix B = interval_matrix(matB);
+    hansen_interval_matrix hansen_A = hansen_interval_matrix(hansen_matA);
+    hansen_interval_matrix hansen_B = hansen_interval_matrix(hansen_matB);
+    //cout << A_hansen;
+    system_of_linear_equations sole = system_of_linear_equations(A, B);
+    system_of_linear_equations_hansen_form sole_hansen = system_of_linear_equations_hansen_form(hansen_A, hansen_B);
+
+    cout << "\nPrzyklad 3:";
+
+    vector<interval> I = solve(sole);
+    vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
+}
+
+
 int main()
 {
     srand(time(NULL));
 
+
+    example1();
+    example2();
+    example3();
     int input;
-    cout << "Rozwiazywanie ukladu rownan\nWybierz co chcesz zrobic\n\t1. Wylosuj uklad rownan\n\t2. Wczytaj uklad rownan\n";
+    cout << "\n\nWybierz co chcesz zrobic\n\t1. Wylosuj uklad rownan\n\t2. Wczytaj uklad rownan";
     cin >> input;
 
     system_of_linear_equations sole = create_example(input);
@@ -264,9 +378,9 @@ int main()
     vector<interval> I = solve(sole);
     vector<hansen_interval> I_hansen = solve_using_hansen(sole_hansen);
     
-    //system("pause");
-    std::cout << "\nRozwiazanie metoda Krawczyka: " << std::endl;
-    std::cout << sole.krawczyk_method();
+    system("pause");
+
+    example1();
 
     return 0;
 }
